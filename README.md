@@ -37,16 +37,16 @@ This package provides three main APIs in the `HuggingFace` module:
 import HuggingFace
 
 // Create a client with default settings
-let client = Client.default
+let client = HubClient.default
 
 // Create a client with authentication
-let authenticatedClient = Client(
-    host: Client.defaultHost,
+let authenticatedClient = HubClient(
+    host: HubClient.defaultHost,
     bearerToken: "your_huggingface_token"
 )
 
 // Create a client with custom configuration
-let customClient = Client(
+let customClient = HubClient(
     session: URLSession(configuration: .default),
     host: URL(string: "https://huggingface.co")!,
     userAgent: "MyApp/1.0",
@@ -439,7 +439,7 @@ if let nextURL = page1.nextURL {
 ```swift
 do {
     let modelInfo = try await client.getModel("nonexistent/model")
-} catch let error as Client.ClientError {
+} catch let error as HubClient.ClientError {
     switch error {
     case .requestError(let detail):
         print("Request error: \(detail)")
@@ -671,7 +671,7 @@ do {
 
 The Inference Providers API allows you to run AI tasks using various models and providers. It automatically handles authentication and routing to the best provider for your needs.
 
-#### Creating an Inference Client
+#### Creating an Inference HubClient
 
 ```swift
 import HuggingFace
@@ -896,8 +896,8 @@ let token = try await authManager.getValidToken()
 
 ```swift
 // Create authenticated Hub client using OAuth token
-let hubClient = Client(
-    host: Client.defaultHost,
+let hubClient = HubClient(
+    host: HubClient.defaultHost,
     bearerToken: try await authManager.getValidToken()
 )
 
