@@ -609,6 +609,7 @@ public extension HubClient {
     ///   - destination: Local destination directory
     ///   - revision: Git revision (branch, tag, or commit)
     ///   - matching: Glob patterns to filter files (empty array downloads all files)
+    ///   - resumable: Whether to enable resumable downloads (Apple platforms only)
     ///   - progressHandler: Optional closure called with progress updates
     /// - Returns: URL to the local snapshot directory
     func downloadSnapshot(
@@ -617,6 +618,7 @@ public extension HubClient {
         to destination: URL,
         revision: String = "main",
         matching globs: [String] = [],
+        resumable: Bool = false,
         progressHandler: ((Progress) -> Void)? = nil
     ) async throws -> URL {
         let filenames = try await listFiles(in: repo, kind: kind, revision: revision, recursive: true)
@@ -642,6 +644,7 @@ public extension HubClient {
                 to: fileDestination,
                 kind: kind,
                 revision: revision,
+                resumable: resumable,
                 progress: fileProgress
             )
 
@@ -722,6 +725,7 @@ public extension HubClient {
                         to: fileDestination,
                         kind: kind,
                         revision: revision,
+                        resumable: true,
                         progress: fileProgress
                     )
                 }
@@ -732,6 +736,7 @@ public extension HubClient {
                     to: fileDestination,
                     kind: kind,
                     revision: revision,
+                    resumable: true,
                     progress: fileProgress
                 )
             }
